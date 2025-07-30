@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bn4cm8xpl0l3"]
+
+[ext_resource type="Script" uid="uid://t1q4i0kotwu4" path="res://scenes/Armas/Throweables/Sierras/sierras.gd" id="1_dqyvq"]
+
+[node name="Sierras" type="Node2D"]
+script = ExtResource("1_dqyvq")

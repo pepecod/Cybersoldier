@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3bf00br7qxex"]
+
+[ext_resource type="PackedScene" uid="uid://cclgld4jg07lk" path="res://scenes/proyectilbase.tscn" id="1_n8reg"]
+[ext_resource type="Script" uid="uid://7yma5xio4n6s" path="res://scenes/Armas/Holded/Escopeta/perdigones.gd" id="2_uos7i"]
+
+[node name="Area2D" instance=ExtResource("1_n8reg")]
+script = ExtResource("2_uos7i")

@@ -1,0 +1,14 @@
+[gd_scene load_steps=5 format=3 uid="uid://jgmmbhnfaqkl"]
+
+[ext_resource type="PackedScene" uid="uid://cx1fimnlkvmri" path="res://scenes/Armas/Holded/armabase.tscn" id="1_6fkiy"]
+[ext_resource type="Script" uid="uid://cog2p0nb6ycg3" path="res://scenes/Armas/Holded/Chakram/chakram.gd" id="2_5yi6y"]
+[ext_resource type="Texture2D" uid="uid://c2fg554ns5h74" path="res://assets/armas/chakram.png" id="3_c06gd"]
+[ext_resource type="PackedScene" uid="uid://dw8be3kv7vbns" path="res://scenes/Armas/Holded/Chakram/proyectilchakram.tscn" id="3_wbmer"]
+
+[node name="Armabase" instance=ExtResource("1_6fkiy")]
+script = ExtResource("2_5yi6y")
+chakram_scene = ExtResource("3_wbmer")
+nivel = 0
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_c06gd")

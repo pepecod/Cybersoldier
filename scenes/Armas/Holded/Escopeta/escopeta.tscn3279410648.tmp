@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://ge5u4w5hyqmc"]
+
+[ext_resource type="PackedScene" uid="uid://cx1fimnlkvmri" path="res://scenes/Armas/Holded/armabase.tscn" id="1_q6cup"]
+[ext_resource type="Script" uid="uid://boxcvr3ihr8je" path="res://scenes/Armas/Holded/Escopeta/escopeta.gd" id="2_rgaey"]
+[ext_resource type="Texture2D" uid="uid://t4slx3u3c4cq" path="res://assets/armas/escopeta.png" id="3_euxn7"]
+
+[node name="Armabase" instance=ExtResource("1_q6cup")]
+script = ExtResource("2_rgaey")
+perdigon_scene = null
+angulo_cono = null
+velocidad_proyectil = null
+cadencia_disparo = null
+"daño" = null
+cadencia = null
+"tamaño_cargador" = null
+animacion_disparo = null
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_euxn7")

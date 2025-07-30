@@ -1,0 +1,57 @@
+[gd_scene load_steps=7 format=3 uid="uid://ge5u4w5hyqmc"]
+
+[ext_resource type="PackedScene" uid="uid://cx1fimnlkvmri" path="res://scenes/Armas/Holded/armabase.tscn" id="1_q6cup"]
+[ext_resource type="Script" uid="uid://boxcvr3ihr8je" path="res://scenes/Armas/Holded/Escopeta/escopeta.gd" id="2_rgaey"]
+[ext_resource type="PackedScene" uid="uid://cclgld4jg07lk" path="res://scenes/proyectilbase.tscn" id="3_7g2vf"]
+[ext_resource type="Texture2D" uid="uid://t4slx3u3c4cq" path="res://assets/armas/escopeta.png" id="3_euxn7"]
+
+[sub_resource type="GDScript" id="GDScript_w53o8"]
+script/source = "extends ProyectilBase
+class_name Perdigon
+
+# Configuración específica
+@export var dispersion_aleatoria: float = 0.1
+@export var rebotes_maximos: int = 2
+
+var rebotes_restantes: int
+
+func _ready():
+	rebotes_restantes = rebotes_maximos
+	# Aplica dispersión inicial
+	direccion = direccion.rotated(randf_range(-dispersion_aleatoria, dispersion_aleatoria))
+
+func _on_body_entered(body):
+	if body.has_method(\"recibir_dano\"):
+		body.recibir_dano(daño)
+	
+	if rebotes_restantes > 0:
+		rebotes_restantes -= 1
+		# Lógica de rebote (simplificada)
+		direccion = direccion.bounce(body.get_normal())
+	else:
+		destruir()
+"
+
+[sub_resource type="PackedScene" id="PackedScene_2i8cp"]
+_bundled = {
+"base_scene": 0,
+"conn_count": 0,
+"conns": PackedInt32Array(),
+"editable_instances": [],
+"names": PackedStringArray("Node2D", "script", "AnimatedSprite2D", "CollisionShape2D"),
+"node_count": 1,
+"node_paths": [],
+"nodes": PackedInt32Array(-1, -1, 2147483647, 0, -1, 1, 1, 1, 0),
+"variants": [ExtResource("3_7g2vf"), SubResource("GDScript_w53o8")],
+"version": 3
+}
+
+[node name="Armabase" instance=ExtResource("1_q6cup")]
+script = ExtResource("2_rgaey")
+proyectil = SubResource("PackedScene_2i8cp")
+numero_perdigones = 6
+angulo_cono = 0.5
+velocidad_proyectil = 800.0
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_euxn7")

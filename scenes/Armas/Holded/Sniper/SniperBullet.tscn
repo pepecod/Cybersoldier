@@ -1,0 +1,47 @@
+[gd_scene load_steps=9 format=3 uid="uid://dl5pjlon34jj8"]
+
+[ext_resource type="PackedScene" uid="uid://cclgld4jg07lk" path="res://scenes/proyectilbase.tscn" id="1_8jqa2"]
+[ext_resource type="Script" uid="uid://bk6sexlrfdoty" path="res://scenes/Armas/Holded/Sniper/sniper_bullet.gd" id="2_dveju"]
+[ext_resource type="Texture2D" uid="uid://chaosmbi5utdv" path="res://assets/bullets/All_Fire_Bullet_Pixel_16x16_00.png" id="3_gm4vg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p2nev"]
+atlas = ExtResource("3_gm4vg")
+region = Rect2(256, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cv4bh"]
+atlas = ExtResource("3_gm4vg")
+region = Rect2(288, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_276rh"]
+atlas = ExtResource("3_gm4vg")
+region = Rect2(272, 160, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7d1qc"]
+atlas = ExtResource("3_gm4vg")
+region = Rect2(304, 160, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ataj5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p2nev")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cv4bh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_276rh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7d1qc")
+}],
+"loop": true,
+"name": &"vuelo",
+"speed": 5.0
+}]
+
+[node name="Area2D" instance=ExtResource("1_8jqa2")]
+script = ExtResource("2_dveju")
+
+[node name="AnimatedSprite2D" parent="." index="0"]
+sprite_frames = SubResource("SpriteFrames_ataj5")

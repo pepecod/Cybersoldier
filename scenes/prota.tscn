@@ -1,0 +1,87 @@
+[gd_scene load_steps=8 format=3 uid="uid://d32n01oactvgx"]
+
+[ext_resource type="Script" uid="uid://d3i0vkk5bhtb3" path="res://scripts/prota.gd" id="1_1qcsf"]
+[ext_resource type="Texture2D" uid="uid://dn528f03210ts" path="res://assets/prota/protaanim.png" id="2_gvsfh"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4bq7e"]
+atlas = ExtResource("2_gvsfh")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2syi6"]
+atlas = ExtResource("2_gvsfh")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1qcsf"]
+atlas = ExtResource("2_gvsfh")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ghjub"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bq7e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2syi6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4bq7e")
+}],
+"loop": false,
+"name": &"disparar",
+"speed": 60.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1qcsf")
+}],
+"loop": false,
+"name": &"idle",
+"speed": 5.0
+}]
+
+[sub_resource type="GDScript" id="GDScript_1qcsf"]
+script/source = "extends Node2D
+
+@onready var weapon_sprite := $WeaponHolder/WeaponSprite
+
+var weapon_textures = {
+	\"escopeta\": preload(\"res://assets/armas/escopeta.png\"),
+	\"chakram\": preload(\"res://assets/armas/chakram.png\"),
+}
+
+func equip_weapon(name: String):
+	if weapon_textures.has(name):
+		weapon_sprite.texture = weapon_textures[name]
+	else:
+		weapon_sprite.texture = null
+"
+
+[node name="Node2D" type="Node2D"]
+
+[node name="ProtaBody" type="CharacterBody2D" parent="." groups=["jugador"]]
+rotation = 2.79253
+script = ExtResource("1_1qcsf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ProtaBody"]
+rotation = -0.762709
+sprite_frames = SubResource("SpriteFrames_ghjub")
+animation = &"disparar"
+speed_scale = 0.2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="ProtaBody"]
+position = Vector2(2.38983, -6.33923)
+rotation = -1.19555
+scale = Vector2(1.09055, 1.00361)
+polygon = PackedVector2Array(0, 0, -16, 0, -24, -8, -24, -24, -16, -24, 0, -16, 8, -8, 8, 8, 8, 16, -8, 24, -16, 24, -8, 16, -8, 8, -16, 0)
+
+[node name="Camera2D" type="Camera2D" parent="ProtaBody"]
+
+[node name="WeaponHolder" type="Node2D" parent="ProtaBody"]
+position = Vector2(4.78141, 10.2537)
+rotation = -0.598648
+script = SubResource("GDScript_1qcsf")
+
+[node name="WeaponSprite" type="Sprite2D" parent="ProtaBody/WeaponHolder"]
+
+[connection signal="animation_finished" from="ProtaBody/AnimatedSprite2D" to="ProtaBody" method="_on_animated_sprite_2d_animation_finished"]

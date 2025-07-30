@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://olle3ypc10xw"]
+
+[ext_resource type="Script" uid="uid://72f2vydw2tpp" path="res://scenes/Armas/Throweables/Molotov/molotov.gd" id="1_tyt75"]
+
+[node name="Molotov" type="Node2D"]
+script = ExtResource("1_tyt75")

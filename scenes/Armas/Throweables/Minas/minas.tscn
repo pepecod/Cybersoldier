@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cykuqid3cxbt0"]
+
+[ext_resource type="Script" uid="uid://bxvb3jbnjino1" path="res://scenes/Armas/Throweables/Minas/minas.gd" id="1_j07r5"]
+
+[node name="Minas" type="Node2D"]
+script = ExtResource("1_j07r5")

@@ -1,0 +1,234 @@
+[gd_scene load_steps=15 format=3 uid="uid://dxpsqn8olhyx0"]
+
+[ext_resource type="Script" uid="uid://cisyltub4cyfb" path="res://scenes/control.gd" id="1_4ytvr"]
+[ext_resource type="VideoStream" uid="uid://cvcj6ophte52b" path="res://assets/hud/intro-cs2.ogv" id="2_4ytvr"]
+[ext_resource type="FontFile" uid="uid://cet31daxna44" path="res://assets/hud/vertopal.com_GUNV2BM.ttf" id="3_v86rl"]
+[ext_resource type="Texture2D" uid="uid://7ri0a4em48kd" path="res://assets/hud/MenuPrincipal.jpg" id="4_13sgg"]
+[ext_resource type="Texture2D" uid="uid://t4slx3u3c4cq" path="res://assets/armas/escopeta.png" id="4_i6lef"]
+[ext_resource type="Texture2D" uid="uid://c2fg554ns5h74" path="res://assets/armas/chakram.png" id="5_70i5f"]
+[ext_resource type="AudioStream" uid="uid://8m7w7x20vesv" path="res://assets/sounds/mainmenu (2).mp3" id="5_i6lef"]
+[ext_resource type="Texture2D" uid="uid://d3x854x7ibmfq" path="res://assets/armas/Sniper.png" id="6_mj5lg"]
+[ext_resource type="Texture2D" uid="uid://b17xm6vw0kdgg" path="res://assets/hud/Sub menu jugar.jpg" id="7_ufwb2"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_r67kn"]
+bg_color = Color(0.533333, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+shadow_color = Color(1, 0, 0, 0.65098)
+shadow_size = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tjwpk"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qtu10"]
+bg_color = Color(0.266667, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 0, 0, 1)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_i6lef"]
+content_margin_left = 20.0
+content_margin_top = 20.0
+content_margin_right = 20.0
+content_margin_bottom = 20.0
+bg_color = Color(0.2, 0, 0, 0.4)
+border_width_left = 8
+border_width_top = 8
+border_width_right = 8
+border_width_bottom = 8
+border_color = Color(0.222256, 1.57929e-07, 3.00817e-08, 0.980392)
+border_blend = true
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+
+[sub_resource type="Theme" id="Theme_6cdou"]
+
+[node name="MenuPrincipal" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4ytvr")
+
+[node name="VideoPlayer" type="VideoStreamPlayer" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1088.0
+stream = ExtResource("2_4ytvr")
+expand = true
+
+[node name="CapaMenu" type="CanvasLayer" parent="."]
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CapaMenu"]
+offset_left = 1016.0
+offset_top = 496.0
+offset_right = 1632.0
+offset_bottom = 712.0
+
+[node name="Jugar" type="Button" parent="CapaMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_v86rl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_r67kn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tjwpk")
+theme_override_styles/normal = SubResource("StyleBoxFlat_qtu10")
+text = "Jugar"
+
+[node name="Opciones" type="Button" parent="CapaMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_v86rl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_r67kn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tjwpk")
+theme_override_styles/normal = SubResource("StyleBoxFlat_qtu10")
+text = "Opciones
+"
+
+[node name="Salir" type="Button" parent="CapaMenu/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_fonts/font = ExtResource("3_v86rl")
+theme_override_styles/hover = SubResource("StyleBoxFlat_r67kn")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_tjwpk")
+theme_override_styles/normal = SubResource("StyleBoxFlat_qtu10")
+text = "Salir
+"
+
+[node name="JugarMenu" type="PanelContainer" parent="CapaMenu"]
+offset_left = 904.0
+offset_top = 280.0
+offset_right = 1712.0
+offset_bottom = 912.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_i6lef")
+
+[node name="CapaMenu2" type="CanvasLayer" parent="CapaMenu/JugarMenu"]
+layer = 0
+
+[node name="Fondo menu" type="TextureRect" parent="CapaMenu/JugarMenu/CapaMenu2"]
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("7_ufwb2")
+
+[node name="Nota" type="Label" parent="CapaMenu/JugarMenu/CapaMenu2"]
+offset_left = 904.0
+offset_top = 240.0
+offset_right = 1672.0
+offset_bottom = 289.0
+text = "NOTA: Ahora mismo esta en fase temprana, pueden añadirse mas armas en un futuro.
+"
+
+[node name="VBoxContainerMenu2" type="VBoxContainer" parent="CapaMenu/JugarMenu"]
+layout_mode = 2
+
+[node name="Titulo" type="Label" parent="CapaMenu/JugarMenu/VBoxContainerMenu2"]
+layout_mode = 2
+theme = SubResource("Theme_6cdou")
+theme_type_variation = &"HeaderMedium"
+theme_override_fonts/font = ExtResource("3_v86rl")
+text = "Selecciona un arma:"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CapaMenu/JugarMenu/VBoxContainerMenu2"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VScrollBar" type="VScrollBar" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme_override_constants/separation = 40
+
+[node name="HBoxContainerEscopeta" type="HBoxContainer" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_stretch_ratio = 2.72
+
+[node name="TextureRect" type="TextureRect" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer/HBoxContainerEscopeta"]
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("4_i6lef")
+
+[node name="Escopeta" type="Label" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer/HBoxContainerEscopeta"]
+layout_mode = 2
+text = "Escopeta| Ideal para daño en area
+[++Perdigones por nivel]"
+horizontal_alignment = 1
+
+[node name="Selescopeta" type="Button" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer/HBoxContainerEscopeta"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Seleccionar"
+
+[node name="HBoxContainerChakram" type="HBoxContainer" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer/HBoxContainerChakram"]
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("5_70i5f")
+
+[node name="Chakram" type="Label" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer/HBoxContainerChakram"]
+layout_mode = 2
+text = "Chakram| Proyectil rebotante de daño moderado
+[++Rebotes por nivel]"
+horizontal_alignment = 1
+
+[node name="Selchakram" type="Button" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer/HBoxContainerChakram"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Seleccionar"
+
+[node name="HBoxContainerSniper" type="HBoxContainer" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer/HBoxContainerSniper"]
+layout_mode = 2
+size_flags_horizontal = 2
+texture = ExtResource("6_mj5lg")
+
+[node name="Sniper" type="Label" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer/HBoxContainerSniper"]
+layout_mode = 2
+text = "Sniper| Fusil capaz de atravesar tus enemigos
+[++Tamaño proyectil por nivel]"
+horizontal_alignment = 1
+
+[node name="Selsniper" type="Button" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer/HBoxContainerSniper"]
+layout_mode = 2
+size_flags_horizontal = 10
+text = "Seleccionar"
+
+[node name="VolverMenu2" type="Button" parent="CapaMenu/JugarMenu/VBoxContainerMenu2/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+text = "Volver"
+
+[node name="FondoMain" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = -8.0
+offset_right = 1920.0
+offset_bottom = 1088.0
+texture = ExtResource("4_13sgg")
+
+[node name="AudioMusica" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("5_i6lef")

@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://dx74bf0thnv4c"]
+
+[ext_resource type="Script" uid="uid://dbny7ey5m335d" path="res://scenes/Armas/Throweables/Aura/aura.gd" id="1_tqghy"]
+
+[node name="Aura" type="Node2D"]
+script = ExtResource("1_tqghy")

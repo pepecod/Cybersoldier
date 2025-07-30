@@ -1,0 +1,30 @@
+[gd_scene load_steps=6 format=3 uid="uid://du0e2n64rhjj4"]
+
+[ext_resource type="PackedScene" uid="uid://cx1fimnlkvmri" path="res://scenes/Armas/Holded/armabase.tscn" id="1_tbu3s"]
+[ext_resource type="Script" uid="uid://bu8xqa16v7eus" path="res://scenes/Armas/Holded/Sniper/sniper.gd" id="2_esbdf"]
+[ext_resource type="Texture2D" uid="uid://d3x854x7ibmfq" path="res://assets/armas/Sniper.png" id="2_qsdaf"]
+[ext_resource type="PackedScene" uid="uid://dl5pjlon34jj8" path="res://scenes/Armas/Holded/Sniper/SniperBullet.tscn" id="3_ir5lm"]
+
+[sub_resource type="GDScript" id="GDScript_5hwcg"]
+script/source = "extends Sprite2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="Armabase" instance=ExtResource("1_tbu3s")]
+script = ExtResource("2_esbdf")
+bullet_scene = ExtResource("3_ir5lm")
+nivel = 0
+
+[node name="Sprite2D" parent="." index="0"]
+rotation = -0.120428
+texture = ExtResource("2_qsdaf")
+script = SubResource("GDScript_5hwcg")

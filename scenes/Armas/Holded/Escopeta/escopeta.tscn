@@ -1,0 +1,16 @@
+[gd_scene load_steps=5 format=3 uid="uid://ge5u4w5hyqmc"]
+
+[ext_resource type="PackedScene" uid="uid://cx1fimnlkvmri" path="res://scenes/Armas/Holded/armabase.tscn" id="1_q6cup"]
+[ext_resource type="Script" uid="uid://boxcvr3ihr8je" path="res://scenes/Armas/Holded/Escopeta/escopeta.gd" id="2_rgaey"]
+[ext_resource type="PackedScene" uid="uid://b3bf00br7qxex" path="res://scenes/Armas/Holded/Escopeta/perdigones.tscn" id="3_7g2vf"]
+[ext_resource type="Texture2D" uid="uid://t4slx3u3c4cq" path="res://assets/armas/escopeta.png" id="3_euxn7"]
+
+[node name="Armabase" instance=ExtResource("1_q6cup")]
+script = ExtResource("2_rgaey")
+perdigon_scene = ExtResource("3_7g2vf")
+angulo_cono = 0.5
+velocidad_proyectil = 800.0
+cadencia_disparo = 0.8
+
+[node name="Sprite2D" parent="." index="0"]
+texture = ExtResource("3_euxn7")

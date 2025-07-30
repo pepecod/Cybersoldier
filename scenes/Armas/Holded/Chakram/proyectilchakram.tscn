@@ -1,0 +1,52 @@
+[gd_scene load_steps=9 format=3 uid="uid://dw8be3kv7vbns"]
+
+[ext_resource type="PackedScene" uid="uid://cclgld4jg07lk" path="res://scenes/proyectilbase.tscn" id="1_yji2f"]
+[ext_resource type="Script" uid="uid://kfjfbxrqc3i8" path="res://scenes/Armas/Holded/Chakram/proyectilchakram.gd" id="2_74pap"]
+[ext_resource type="Texture2D" uid="uid://chaosmbi5utdv" path="res://assets/bullets/All_Fire_Bullet_Pixel_16x16_00.png" id="3_8tiky"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bcqab"]
+atlas = ExtResource("3_8tiky")
+region = Rect2(576, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjlkg"]
+atlas = ExtResource("3_8tiky")
+region = Rect2(592, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p62ww"]
+atlas = ExtResource("3_8tiky")
+region = Rect2(608, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_erdgr"]
+atlas = ExtResource("3_8tiky")
+region = Rect2(624, 16, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ue5px"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bcqab")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bjlkg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p62ww")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_erdgr")
+}],
+"loop": true,
+"name": &"vuelo",
+"speed": 5.0
+}]
+
+[node name="Area2D" instance=ExtResource("1_yji2f")]
+script = ExtResource("2_74pap")
+
+[node name="NavAgent" type="NavigationAgent2D" parent="." index="0"]
+
+[node name="AnimatedSprite2D" parent="." index="1"]
+sprite_frames = SubResource("SpriteFrames_ue5px")
+speed_scale = 5.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
