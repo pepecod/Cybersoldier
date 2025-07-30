@@ -3,6 +3,7 @@ extends Control
 
 @onready var musica       : AudioStreamPlayer2D = $AudioMusica
 @onready var video := $VideoPlayer
+@onready var sfx_click    : AudioStreamPlayer2D = $SFXClick
 @onready var main_menu    : VBoxContainer        = $CapaMenu/VBoxContainer
 @onready var weapon_menu  : Control              = $CapaMenu/JugarMenu
 @onready var decoracion   : TextureRect          = $FondoMain
@@ -51,6 +52,12 @@ func _ready() -> void:
 	btn_sel_escopeta.pressed.connect(_on_sel_escopeta)
 	btn_sel_chakram.pressed.connect(_on_sel_chakram)
 	btn_sel_sniper.pressed.connect(_on_sel_sniper)
+	#100% hay una manera mejor usando etiquetas como la de enemigo pero de moomento asi
+	for btn in [btn_jugar, btn_opciones, btn_salir, btn_volver, btn_sel_escopeta, btn_sel_chakram, btn_sel_sniper]:
+		btn.pressed.connect(_play_click_sfx)
+
+func _play_click_sfx() -> void:
+	sfx_click.play()
 
 func _show_main_menu() -> void:
 	video.visible       = false
