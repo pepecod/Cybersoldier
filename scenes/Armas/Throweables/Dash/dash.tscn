@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://c05lie0aikn64"]
-
-[ext_resource type="Script" uid="uid://ddh7ecatk18kv" path="res://scenes/Armas/Throweables/Dash/dash.gd" id="1_ank13"]
-
-[node name="Dash" type="Node2D"]
-script = ExtResource("1_ank13")

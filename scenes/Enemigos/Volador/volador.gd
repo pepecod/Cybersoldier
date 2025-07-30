@@ -2,6 +2,7 @@ extends "res://scenes/Enemigos/enemigobase.gd"
 class_name Volador
 
 @export var daño_ataque: float = 10.0
+@export var xp: float = 10.0
 @export var tiempo_entre_ataques: float = 1.0
 
 @onready var detector: Area2D = $Detector
@@ -70,12 +71,14 @@ func recibir_daño(cantidad: float) -> void:
 
 func morir():
 	# Detener movimiento y pathfinding
+	GameState.add_xp(xp)
 	velocity = Vector2.ZERO
 	nav_agent.set_velocity(Vector2.ZERO)
 	nav_agent.target_position = global_position  # Detener navegación
 	set_physics_process(false)  # Opcional: detener física
 
 	anim_sprite.play("morir")
+
 	await anim_sprite.animation_finished
 	queue_free()
 

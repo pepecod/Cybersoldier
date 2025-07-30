@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c16wxf2bymn2u"
-path="res://.godot/imported/hitprota.wav-06442223b180c069a73a3697eaccb60a.sample"
+path="res://.godot/imported/hitprota.wav-d49cdec8ce1e485567ef2389396d41ab.sample"
 
 [deps]
 
-source_file="res://assets/sounds/hitprota.wav"
-dest_files=["res://.godot/imported/hitprota.wav-06442223b180c069a73a3697eaccb60a.sample"]
+source_file="res://assets/sounds/Effects/hitprota.wav"
+dest_files=["res://.godot/imported/hitprota.wav-d49cdec8ce1e485567ef2389396d41ab.sample"]
 
 [params]
 

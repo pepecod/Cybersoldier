@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://d0krhtcfwcy81"
-path="res://.godot/imported/subirnivel.wav-2531245c99b68bbd2b84000675695691.sample"
+path="res://.godot/imported/subirnivel.wav-0e538ab36f3c34023453a3dfeeccae85.sample"
 
 [deps]
 
-source_file="res://assets/sounds/subirnivel.wav"
-dest_files=["res://.godot/imported/subirnivel.wav-2531245c99b68bbd2b84000675695691.sample"]
+source_file="res://assets/sounds/Effects/subirnivel.wav"
+dest_files=["res://.godot/imported/subirnivel.wav-0e538ab36f3c34023453a3dfeeccae85.sample"]
 
 [params]
 

@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://cp7vgpp3db4ti"
-path="res://.godot/imported/sierra.wav-674eb4800d5424706725eec2f3d4071d.sample"
+uid="uid://dxvlhx2a32jv5"
+path="res://.godot/imported/gunshot.wav-fbd01d73ebb6f38ad964599538111f71.sample"
 
 [deps]
 
-source_file="res://assets/sounds/sierra.wav"
-dest_files=["res://.godot/imported/sierra.wav-674eb4800d5424706725eec2f3d4071d.sample"]
+source_file="res://assets/sounds/Effects/gunshot.wav"
+dest_files=["res://.godot/imported/gunshot.wav-fbd01d73ebb6f38ad964599538111f71.sample"]
 
 [params]
 

@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://caicwpkg42sdh"
-path="res://.godot/imported/subirarma.wav-bcace7a25c783cfaa4697f5a1746c9de.sample"
+path="res://.godot/imported/subirarma.wav-5067d179e4d4b08b36dc6fe964f7104e.sample"
 
 [deps]
 
-source_file="res://assets/sounds/subirarma.wav"
-dest_files=["res://.godot/imported/subirarma.wav-bcace7a25c783cfaa4697f5a1746c9de.sample"]
+source_file="res://assets/sounds/Effects/subirarma.wav"
+dest_files=["res://.godot/imported/subirarma.wav-5067d179e4d4b08b36dc6fe964f7104e.sample"]
 
 [params]
 

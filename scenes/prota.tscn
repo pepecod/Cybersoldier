@@ -84,4 +84,6 @@ script = SubResource("GDScript_1qcsf")
 
 [node name="WeaponSprite" type="Sprite2D" parent="ProtaBody/WeaponHolder"]
 
+[node name="PassiveHolder" type="Node2D" parent="."]
+
 [connection signal="animation_finished" from="ProtaBody/AnimatedSprite2D" to="ProtaBody" method="_on_animated_sprite_2d_animation_finished"]

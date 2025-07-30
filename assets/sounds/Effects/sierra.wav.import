@@ -2,13 +2,13 @@
 
 importer="wav"
 type="AudioStreamWAV"
-uid="uid://v3cmuw6xis4a"
-path="res://.godot/imported/ost.wav-91a7d4217fbf7b2dfd402fd8a48ad57c.sample"
+uid="uid://cp7vgpp3db4ti"
+path="res://.godot/imported/sierra.wav-0c462cd43af0d6b85e6c2e53185dd865.sample"
 
 [deps]
 
-source_file="res://assets/sounds/ost.wav"
-dest_files=["res://.godot/imported/ost.wav-91a7d4217fbf7b2dfd402fd8a48ad57c.sample"]
+source_file="res://assets/sounds/Effects/sierra.wav"
+dest_files=["res://.godot/imported/sierra.wav-0c462cd43af0d6b85e6c2e53185dd865.sample"]
 
 [params]
 

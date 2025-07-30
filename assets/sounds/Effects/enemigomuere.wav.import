@@ -3,12 +3,12 @@
 importer="wav"
 type="AudioStreamWAV"
 uid="uid://c516wlrk31wlp"
-path="res://.godot/imported/enemigomuere.wav-61d83ec557c60a3fe16254c1702a9186.sample"
+path="res://.godot/imported/enemigomuere.wav-0fa18b461a58bfe339deac7936a3445e.sample"
 
 [deps]
 
-source_file="res://assets/sounds/enemigomuere.wav"
-dest_files=["res://.godot/imported/enemigomuere.wav-61d83ec557c60a3fe16254c1702a9186.sample"]
+source_file="res://assets/sounds/Effects/enemigomuere.wav"
+dest_files=["res://.godot/imported/enemigomuere.wav-0fa18b461a58bfe339deac7936a3445e.sample"]
 
 [params]
 
