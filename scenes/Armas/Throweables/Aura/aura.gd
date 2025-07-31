@@ -9,6 +9,8 @@ class_name Aura
 var _time_passed: float = 0.0
 
 @onready var area2d: Area2D         = $Area2D
+@onready var game_state := get_node("/root/GameState")
+@onready var collision_shape: CollisionShape2D = $Area2D/AreaEfecto
 
 func _ready() -> void:
 	# Asegurar que el área coincida con el radio
@@ -19,6 +21,8 @@ func _ready() -> void:
 
 	# Conectar detección de enemigos
 	area2d.body_entered.connect(Callable(self, "_on_area_body_entered"))
+	
+	game_state.connect("level_up", Callable(self, "_on_level_up"))
 
 func _process(delta: float) -> void:
 	_time_passed += delta
@@ -34,3 +38,10 @@ func _draw() -> void:
 func _on_area_body_entered(body: Node) -> void:
 	if body.is_in_group("enemigo") and body.has_method("recibir_daño"):
 		body.recibir_daño(damage_amount)
+func _on_level_up(new_level: int) -> void:
+	# cada nivel +10 de radio y +1 de daño
+	radius += 10.0
+	damage_amount += 1
+	# actualizar el collision_shape
+	if collision_shape.shape is CircleShape2D:
+		collision_shape.shape.radius = radius
