@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cdi6f1yc6vr3h"
-path="res://.godot/imported/efectoaura.png-c55ad8be24263de1c1ec4eb650693d7e.ctex"
+uid="uid://jfkex4ewy62n"
+path="res://.godot/imported/aura2.png-97c4c70072b6f7cd39e3aaccac1fedc8.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/armas/efectoaura.png"
-dest_files=["res://.godot/imported/efectoaura.png-c55ad8be24263de1c1ec4eb650693d7e.ctex"]
+source_file="res://assets/armas/aura2.png"
+dest_files=["res://.godot/imported/aura2.png-97c4c70072b6f7cd39e3aaccac1fedc8.ctex"]
 
 [params]
 

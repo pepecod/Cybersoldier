@@ -29,9 +29,10 @@ signal level_up(new_level: int)
 @onready var anim_sprite:      AnimatedSprite2D   = $AnimatedSprite2D
 @onready var shot_effect:      GPUParticles2D     = $WeaponHolder/ShotEffect
 @onready var audio_player:     AudioStreamPlayer2D = $WeaponHolder/AudioStreamPlayer2D
-@onready var passive_holder  = $PassiveHolder
+@onready var passive_holder = $PassiveHolder
 # ——— Pasivas equipadas —————————————————————————————————————
 var passive_list: Array[WeaponDB.WeaponData] = []
+const AURA_SCENE := preload("res://scenes/Armas/Throweables/Aura/aura.tscn")
 
 # ——— Estado interno ————————————————————————————————————————
 var arma_actual: Node            = null
@@ -55,10 +56,9 @@ func _ready() -> void:
 	# 2) Conecta señal de fin de animación
 	anim_sprite.animation_finished.connect(Callable(self, "_on_AnimatedSprite2D_animation_finished"))
 	# —————— PRUEBA: equipar sólo la Aura ——————
-	for w in weapon_db.all_weapons:
-		if w.name == "Aura":
-			equip_passive(w)
-			break
+
+	var aura_inst = AURA_SCENE.instantiate()
+	passive_holder.add_child(aura_inst)
 	# 3) Conecta sistema de nivel (deshabilitado por ahora)
 	# game_state.connect("level_up", Callable(self, "_on_level_up"))
 
@@ -85,27 +85,6 @@ func procesar_movimiento() -> void:
 	velocity = dir.normalized() * velocidad
 	move_and_slide()
 
-func equip_passive(data: WeaponDB.WeaponData) -> void:
-	# Guardamos la data
-	passive_list.append(data)
-	# Instanciamos y lo añadimos al holder
-	var inst = load(data.scene_path).instantiate()
-	passive_holder.add_child(inst)
-
-func _on_passive_chosen(data: WeaponDB.WeaponData) -> void:
-	get_tree().paused = false
-
-	if data.type == "active":
-		# tu lógica de arma activa…
-		var idx: int = weapon_db.all_weapons.find(data)
-		if idx >= 0:
-			cambiar_arma(idx)
-		else:
-			cambiar_arma(arma_inicial)
-	else:
-		# ahora usamos el helper
-		equip_passive(data)
-	game_state.selected_passives.append(data.name)
 
 func procesar_disparo() -> void:
 	if Input.is_action_pressed("ui_leftclick") and arma_actual and arma_actual.has_method("disparar"):

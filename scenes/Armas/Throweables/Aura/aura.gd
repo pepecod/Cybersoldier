@@ -2,33 +2,35 @@
 extends Node2D
 class_name Aura
 
-@export var damage_amount: int = 5
-@export var animation_name: String = "default"
+@export var damage_amount: int      = 5
+@export var radius: float           = 100.0
+@export var color: Color            = Color(0, 0.5, 1.0, 0.3)
+@export var pulse_speed: float      = 0.8  # velocidad de pulso
+var _time_passed: float = 0.0
 
-@onready var sprite_top: AnimatedSprite2D   = $AnimatedSprite2D
-@onready var sprite_bot: AnimatedSprite2D  = $AnimatedSprite2D2
-@onready var area2d: Area2D                 = $Area2D
+@onready var area2d: Area2D         = $Area2D
 
 func _ready() -> void:
-	# 1) Al instanciarla como hija del Prota, mantenemos su posición local a (0,0)
-	position = Vector2.ZERO
+	# Asegurar que el área coincida con el radio
+	if area2d.get_node("CollisionShape2D") is CollisionShape2D:
+		var shape = area2d.get_node("CollisionShape2D").shape
+		if shape is CircleShape2D:
+			shape.radius = radius
 
-	# 2) Arrancar ambas animaciones en bucle si existen
-	if sprite_top.frames.has_animation(animation_name):
-		sprite_top.play(animation_name)
-		sprite_top.frames.set_animation_loop(animation_name, true)
-	if sprite_bot.frames.has_animation(animation_name):
-		sprite_bot.play(animation_name)
-		sprite_bot.frames.set_animation_loop(animation_name, true)
-
-	# 3) Conectar señal para dañar a quien entre al área
+	# Conectar detección de enemigos
 	area2d.body_entered.connect(Callable(self, "_on_area_body_entered"))
 
-func _process(_delta: float) -> void:
-	# 4) Asegurarnos de que la posición local siempre sea el origen del padre
+func _process(delta: float) -> void:
+	_time_passed += delta
 	position = Vector2.ZERO
+	queue_redraw()
+
+func _draw() -> void:
+	# Cálculo del pulso: frecuencia pulse_speed ciclos/s, amplitud pulse_amplitude
+	var pulse_amplitude: float = 10.0  # ajusta según quieras
+	var pulse: float = sin(_time_passed * TAU * pulse_speed) * pulse_amplitude
+	draw_circle(Vector2.ZERO, radius + pulse, color)
 
 func _on_area_body_entered(body: Node) -> void:
-	# 5) Si es enemigo y puede recibir daño, le aplicamos damage_amount
 	if body.is_in_group("enemigo") and body.has_method("recibir_daño"):
 		body.recibir_daño(damage_amount)
