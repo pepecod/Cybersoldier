@@ -13,6 +13,7 @@ extends CharacterBody2D
 @export var retroceso_fuerza: float = 10.0
 @export var duracion_retroceso: float = 0.15
 
+
 # ——— Señal de nivel (comentado temporalmente) ————————————————
 signal level_up(new_level: int)
 
@@ -30,9 +31,12 @@ signal level_up(new_level: int)
 @onready var shot_effect:      GPUParticles2D     = $WeaponHolder/ShotEffect
 @onready var audio_player:     AudioStreamPlayer2D = $WeaponHolder/AudioStreamPlayer2D
 @onready var passive_holder = $PassiveHolder
+@onready var debug_label: Label = $DebugLabel
 # ——— Pasivas equipadas —————————————————————————————————————
 var passive_list: Array[WeaponDB.WeaponData] = []
-const AURA_SCENE := preload("res://scenes/Armas/Throweables/Aura/aura.tscn")
+const MINA_SCENE := preload("res://scenes/Armas/Throweables/Minas/minas.tscn")
+@export var mine_spawn_radius: float = 150.0
+@export var mine_count: int         = 3
 
 # ——— Estado interno ————————————————————————————————————————
 var arma_actual: Node            = null
@@ -41,7 +45,7 @@ var escala_original: Vector2     = Vector2.ONE
 var weapon_holder_pos_original: Vector2
 
 func _ready() -> void:
-	# 1) Equipa el arma seleccionada en el menú principal
+	# 1) Equipa el arma seleccionada en el menú principal 
 	var idx = GameState.selected_weapon_index
 	if idx >= 0 and idx < armas_disponibles.size():
 		cambiar_arma(idx)
@@ -55,11 +59,12 @@ func _ready() -> void:
 
 	# 2) Conecta señal de fin de animación
 	anim_sprite.animation_finished.connect(Callable(self, "_on_AnimatedSprite2D_animation_finished"))
-	# —————— PRUEBA: equipar sólo la Aura ——————
+	print("🌱 Spawneando minas…")
+	for i in range(mine_count):
+		var mina_inst = MINA_SCENE.instantiate()
+		get_tree().current_scene.add_child(mina_inst)
 
-	var aura_inst = AURA_SCENE.instantiate()
-	passive_holder.add_child(aura_inst)
-	# 3) Conecta sistema de nivel (deshabilitado por ahora)
+
 	# game_state.connect("level_up", Callable(self, "_on_level_up"))
 
 func cambiar_arma(indice_arma: int) -> void:
@@ -75,6 +80,8 @@ func cambiar_arma(indice_arma: int) -> void:
 		arma_actual.connect("disparado", Callable(self, "_on_disparo_realizado"))
 
 func _physics_process(delta: float) -> void:
+	GameState.player_position = global_position
+	debug_label.text = "Player: " + str(global_position)
 	procesar_movimiento()
 	look_at(get_global_mouse_position())
 	procesar_disparo()

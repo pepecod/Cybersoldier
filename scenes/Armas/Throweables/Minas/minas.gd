@@ -1,11 +1,15 @@
 extends Node2D
+class_name Minas
 
+@export var spawn_radius: float = 150.0
+@export var radio: float = 20.0   # debug
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	var prota_pos = GameState.player_position
+	var ang  = randf() * TAU
+	var dist = randf() * spawn_radius
+	global_position = prota_pos + Vector2(cos(ang), sin(ang)) * dist
+	print("💣 Mina plantada en ", global_position)
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _draw() -> void:
+	draw_circle(Vector2.ZERO, radio, Color.RED)

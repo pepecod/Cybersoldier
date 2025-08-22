@@ -3,6 +3,8 @@ extends Node
 
 # Índice de arma elegido en el menú
 var selected_weapon_index: int = 0
+#-------------Posicion prota-----------------
+var player_position: Vector2 = Vector2.ZERO
 #-------------Leveo-----------------
 
 var xp: int         = 0

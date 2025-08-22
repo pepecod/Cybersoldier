@@ -87,4 +87,12 @@ script = SubResource("GDScript_1qcsf")
 [node name="PassiveHolder" type="Node2D" parent="ProtaBody"]
 rotation = -2.79253
 
+[node name="DebugLabel" type="Label" parent="ProtaBody"]
+offset_left = -54.0046
+offset_top = 31.4246
+offset_right = 65.9954
+offset_bottom = 80.4246
+text = "
+"
+
 [connection signal="animation_finished" from="ProtaBody/AnimatedSprite2D" to="ProtaBody" method="_on_animated_sprite_2d_animation_finished"]
