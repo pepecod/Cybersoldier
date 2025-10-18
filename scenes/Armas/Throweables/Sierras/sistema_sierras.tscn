@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://cajf0k2rro1k0"]
+
+[ext_resource type="Script" uid="uid://chdfkwhqjpllh" path="res://scenes/Armas/Throweables/Sierras/sistema_sierras.gd" id="1_65ucs"]
+[ext_resource type="PackedScene" uid="uid://bn4cm8xpl0l3" path="res://scenes/Armas/Throweables/Sierras/sierras.tscn" id="2_s4g8y"]
+
+[node name="SistemaSierras" type="Node2D"]
+script = ExtResource("1_65ucs")
+sierra_scene = ExtResource("2_s4g8y")

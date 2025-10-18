@@ -1,0 +1,8 @@
+[gd_scene load_steps=3 format=3 uid="uid://w7ctt4y362r1"]
+
+[ext_resource type="Script" uid="uid://c6fechp60hp8x" path="res://scenes/Armas/Throweables/Minas/lanzaminas.gd" id="1_ltp1d"]
+[ext_resource type="PackedScene" uid="uid://cykuqid3cxbt0" path="res://scenes/Armas/Throweables/Minas/mina.tscn" id="2_xw8d8"]
+
+[node name="Lanzaminas" type="Node2D"]
+script = ExtResource("1_ltp1d")
+mina_scene = ExtResource("2_xw8d8")

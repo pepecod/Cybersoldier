@@ -58,8 +58,8 @@ func _on_body_entered(body: Node) -> void:
 		return
 	if body in hit_enemies:
 		return
-	if body.has_method("recibir_daño"):
-		body.recibir_daño(damage)
+	if body.has_method("take_damage"):
+		body.take_damage(damage)
 	hit_enemies.append(body)
 	# No destruimos aquí para que atraviese
 

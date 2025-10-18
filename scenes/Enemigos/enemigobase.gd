@@ -33,7 +33,7 @@ func _physics_process(delta):
 		velocity = direccion * velocidad
 		move_and_slide()
 
-func recibir_daño(cantidad: float) -> void:
+func take_damage(cantidad: float) -> void:
 	vida_actual -= cantidad
 	anim_sprite.play("recibir")
 	if vida_actual <= 0:
@@ -46,5 +46,5 @@ func morir():
 
 func _on_Hitbox_area_entered(area: Area2D) -> void:
 	if area.has_method("get_daño"):
-		recibir_daño(area.get_daño())
+		take_damage(area.get_daño())
 		area.queue_free()

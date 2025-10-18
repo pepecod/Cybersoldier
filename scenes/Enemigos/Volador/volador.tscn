@@ -201,6 +201,7 @@ animations = [{
 [node name="Enemigobase" instance=ExtResource("1_y67fm")]
 script = ExtResource("2_ycxwi")
 "daño_ataque" = 10.0
+xp = 10.0
 tiempo_entre_ataques = 1.0
 velocidad = 100.0
 vida_max = 30

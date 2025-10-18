@@ -36,8 +36,8 @@ func _draw() -> void:
 	draw_circle(Vector2.ZERO, radius + pulse, color)
 
 func _on_area_body_entered(body: Node) -> void:
-	if body.is_in_group("enemigo") and body.has_method("recibir_daño"):
-		body.recibir_daño(damage_amount)
+	if body.is_in_group("enemigo") and body.has_method("take_damage"):
+		body.take_damage(damage_amount)
 func _on_level_up(new_level: int) -> void:
 	# cada nivel +10 de radio y +1 de daño
 	radius += 10.0

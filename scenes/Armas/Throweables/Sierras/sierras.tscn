@@ -1,6 +1,53 @@
-[gd_scene load_steps=2 format=3 uid="uid://bn4cm8xpl0l3"]
+[gd_scene load_steps=9 format=3 uid="uid://bn4cm8xpl0l3"]
 
 [ext_resource type="Script" uid="uid://t1q4i0kotwu4" path="res://scenes/Armas/Throweables/Sierras/sierras.gd" id="1_dqyvq"]
+[ext_resource type="Texture2D" uid="uid://ecw175fx4ls3" path="res://assets/armas/SawBladeSuriken.png" id="2_shsmk"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ag5ak"]
+atlas = ExtResource("2_shsmk")
+region = Rect2(4, 0, 24, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7llwk"]
+atlas = ExtResource("2_shsmk")
+region = Rect2(28, 0, 24, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45qb6"]
+atlas = ExtResource("2_shsmk")
+region = Rect2(52, 0, 24, 28)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_erm2o"]
+atlas = ExtResource("2_shsmk")
+region = Rect2(76, 0, 24, 28)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_13jcx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ag5ak")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7llwk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45qb6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_erm2o")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_judn4"]
 
 [node name="Sierras" type="Node2D"]
 script = ExtResource("1_dqyvq")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_13jcx")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+shape = SubResource("CircleShape2D_judn4")

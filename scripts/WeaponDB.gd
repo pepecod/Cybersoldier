@@ -1,4 +1,5 @@
 extends Node
+
 class_name WeaponDB
 
 class WeaponData:
@@ -8,7 +9,7 @@ class WeaponData:
 	var unlock_level: int
 	var description: String
 	var icon_path: String
-
+	
 	func _init(
 		_name: String = "",
 		_scene_path: String = "",
@@ -17,14 +18,14 @@ class WeaponData:
 		_description: String = "",
 		_icon_path: String = ""
 	) -> void:
-		name          = _name
-		scene_path    = _scene_path
-		type          = _type
-		unlock_level  = _unlock_level
-		description   = _description
-		icon_path     = _icon_path
+		name = _name
+		scene_path = _scene_path
+		type = _type
+		unlock_level = _unlock_level
+		description = _description
+		icon_path = _icon_path
 
-# Lista con todas las armas/pasivas del juego
+# Lista de todas las armas
 var all_weapons: Array[WeaponData] = [
 	WeaponData.new(
 		"Chakram",
@@ -52,7 +53,7 @@ var all_weapons: Array[WeaponData] = [
 	),
 	WeaponData.new(
 		"Aura",
-		"res://scenes/Armas/Throweables/Aura/aura.tscn",
+		"res://scenes/Armas/Pasivas/Aura/aura.tscn",
 		"passive",
 		1,
 		"Genera un campo que daña a los enemigos cercanos.",
@@ -60,7 +61,7 @@ var all_weapons: Array[WeaponData] = [
 	),
 	WeaponData.new(
 		"Dron",
-		"res://scenes/Armas/Throweables/Dron/dron.tscn",
+		"res://scenes/Armas/Pasivas/Dron/dron.tscn",
 		"passive",
 		1,
 		"Un dron que dispara automáticamente a los enemigos.",
@@ -68,7 +69,7 @@ var all_weapons: Array[WeaponData] = [
 	),
 	WeaponData.new(
 		"Minas",
-		"res://scenes/Armas/Throweables/Minas/minas.tscn",
+		"res://scenes/Armas/Pasivas/Minas/mina.tscn",
 		"passive",
 		1,
 		"Coloca minas que explotan al paso de un enemigo.",
@@ -76,7 +77,7 @@ var all_weapons: Array[WeaponData] = [
 	),
 	WeaponData.new(
 		"Molotov",
-		"res://scenes/Armas/Throweables/Molotov/molotov.tscn",
+		"res://scenes/Armas/Pasivas/Molotov/molotov.tscn",
 		"passive",
 		1,
 		"Lanza cócteles molotov que prenden el suelo.",
@@ -84,11 +85,11 @@ var all_weapons: Array[WeaponData] = [
 	),
 	WeaponData.new(
 		"Sierras",
-		"res://scenes/Armas/Throweables/Sierras/sierras.tscn",
+		"res://scenes/Armas/Pasivas/Sierras/sierras.tscn",
 		"passive",
 		1,
 		"Sierras giratorias que cortan todo a su paso.",
-		"res://assets/sierras/sierras.png"
+		"res://assets/armas/sierras.png"
 	),
 	WeaponData.new(
 		"Lanzacohetes",
@@ -107,3 +108,26 @@ var all_weapons: Array[WeaponData] = [
 		"res://assets/armas/lanzallamas.png"
 	),
 ]
+
+# Buscar arma por nombre
+func get_weapon_by_name(weapon_name: String) -> WeaponData:
+	for weapon in all_weapons:
+		if weapon.name == weapon_name:
+			return weapon
+	return null
+
+# Obtener armas por tipo
+func get_weapons_by_type(weapon_type: String) -> Array[WeaponData]:
+	var filtered: Array[WeaponData] = []
+	for weapon in all_weapons:
+		if weapon.type == weapon_type:
+			filtered.append(weapon)
+	return filtered
+
+# Obtener pasivas
+func get_passive_weapons() -> Array[WeaponData]:
+	return get_weapons_by_type("passive")
+
+# Obtener activas
+func get_active_weapons() -> Array[WeaponData]:
+	return get_weapons_by_type("active")

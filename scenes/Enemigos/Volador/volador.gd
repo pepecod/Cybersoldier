@@ -49,8 +49,8 @@ func atacar():
 	puede_atacar = false
 	anim_sprite.play("atacar")
 
-	if objetivo and objetivo.has_method("recibir_daño"):
-		objetivo.recibir_daño(daño_ataque)
+	if objetivo and objetivo.has_method("take_damage"):
+		objetivo.take_damage(daño_ataque)
 
 	await get_tree().create_timer(tiempo_entre_ataques).timeout
 	puede_atacar = true
@@ -59,12 +59,12 @@ func atacar():
 	if jugador_en_rango:
 		anim_sprite.play("volar")
 
-func recibir_daño(cantidad: float) -> void:
+func take_damage(cantidad: float) -> void:
 	anim_sprite.play("recibir")
 	velocity = Vector2.ZERO
 	await anim_sprite.animation_finished
 
-	super.recibir_daño(cantidad)
+	super.take_damage(cantidad)
 
 	if vida_actual > 0:
 		anim_sprite.play("volar")
@@ -85,7 +85,7 @@ func morir():
 func _on_hitbox_area_entered(area: Area2D) -> void:
 	if area.has_method("get_daño"):
 		var daño = area.get_daño()
-		recibir_daño(daño)
+		take_damage(daño)
 		area.queue_free()
 
 func _on_detector_body_entered(body: Node) -> void:

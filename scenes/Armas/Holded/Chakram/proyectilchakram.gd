@@ -46,8 +46,8 @@ func _on_body_entered(body: Node) -> void:
 		return
 
 	# Daño y cuenta
-	if body.has_method("recibir_daño"):
-		body.recibir_daño(daño)
+	if body.has_method("take_damage"):
+		body.take_damage(daño)
 	enemigos_golpeados.append(body)
 	rebotes_realizados += 1
 

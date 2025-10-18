@@ -1,173 +1,170 @@
-# Player.gd
 extends CharacterBody2D
 
-# ——— Configuración de movimiento y armas ————————————————————————
+# ——— Señales ————————————————————————————————————————
+signal pasiva_equipada(pasiva_name: String)
+signal pasiva_desequipada(pasiva_name: String)
+
+# ——— Configuración ————————————————————————————————————————
 @export var velocidad: float = 2000.0
+@export var retroceso_fuerza: float = 10.0
+@export var duracion_retroceso: float = 0.15
+
+@export_group("Armas")
 @export var armas_disponibles: Array[PackedScene] = [
 	preload("res://scenes/Armas/Holded/Escopeta/escopeta.tscn"),
 	preload("res://scenes/Armas/Holded/Chakram/chakram.tscn"),
 	preload("res://scenes/Armas/Holded/Sniper/sniper.tscn"),
-	# agregar más armas aquí...
 ]
-@export var arma_inicial: int        = 0
-@export var retroceso_fuerza: float = 10.0
-@export var duracion_retroceso: float = 0.15
+@export var arma_inicial: int = 0
 
+@export_group("Pasivas")
+@export var pasivas_disponibles: Array[PackedScene] = []
 
-# ——— Señal de nivel (comentado temporalmente) ————————————————
-signal level_up(new_level: int)
-
-# ——— Sistema de XP / nivel (comentado mientras pruebas animaciones) ————
-# var xp: int         = 0
-# var level: int      = 1
-# var xp_to_next: int = 10
-# const PASSIVE_MENU_SCENE := preload("res://scenes/PassiveSelection.tscn")
-@onready var game_state := get_node("/root/GameState")
-@onready var weapon_db  := get_node("/root/WeaponDb")
-
-# ——— Nodos internos —————————————————————————————————————————
-@onready var weapon_holder:    Node2D             = $WeaponHolder
-@onready var anim_sprite:      AnimatedSprite2D   = $AnimatedSprite2D
-@onready var shot_effect:      GPUParticles2D     = $WeaponHolder/ShotEffect
-@onready var audio_player:     AudioStreamPlayer2D = $WeaponHolder/AudioStreamPlayer2D
-@onready var passive_holder = $PassiveHolder
+# ——— Nodos ————————————————————————————————————————
+@onready var weapon_holder: Node2D = $WeaponHolder
+@onready var passive_holder: Node2D = $PassiveHolder
+@onready var anim_sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var debug_label: Label = $DebugLabel
-# ——— Pasivas equipadas —————————————————————————————————————
-var passive_list: Array[WeaponDB.WeaponData] = []
-const MINA_SCENE := preload("res://scenes/Armas/Throweables/Minas/minas.tscn")
-@export var mine_spawn_radius: float = 150.0
-@export var mine_count: int         = 3
 
-# ——— Estado interno ————————————————————————————————————————
-var arma_actual: Node            = null
-var esta_moviendose: bool        = false
-var escala_original: Vector2     = Vector2.ONE
+# ——— Estado ————————————————————————————————————————
+var arma_actual: Node = null
+var esta_moviendose: bool = false
+var pasivas_equipadas: Array = []
 var weapon_holder_pos_original: Vector2
+var escala_original: Vector2
 
 func _ready() -> void:
-	# 1) Equipa el arma seleccionada en el menú principal 
-	var idx = GameState.selected_weapon_index
-	if idx >= 0 and idx < armas_disponibles.size():
-		cambiar_arma(idx)
-	else:
-		cambiar_arma(arma_inicial)
-
-	# Guarda posición y escala para retroceso/animaciones
+	add_to_group("player")
+	
 	weapon_holder_pos_original = weapon_holder.position
 	escala_original = anim_sprite.scale
+	
 	anim_sprite.play("idle")
-
-	# 2) Conecta señal de fin de animación
-	anim_sprite.animation_finished.connect(Callable(self, "_on_AnimatedSprite2D_animation_finished"))
-	print("🌱 Spawneando minas…")
-	for i in range(mine_count):
-		var mina_inst = MINA_SCENE.instantiate()
-		get_tree().current_scene.add_child(mina_inst)
-
-
-	# game_state.connect("level_up", Callable(self, "_on_level_up"))
-
-func cambiar_arma(indice_arma: int) -> void:
-	# Elimina la anterior
-	if arma_actual:
-		arma_actual.queue_free()
-	# Instancia la nueva
-	arma_actual = armas_disponibles[indice_arma].instantiate()
-	weapon_holder.add_child(arma_actual)
-	arma_actual.position = Vector2.ZERO
-	# Conecta señal de disparo si la emite
-	if arma_actual.has_signal("disparado"):
-		arma_actual.connect("disparado", Callable(self, "_on_disparo_realizado"))
+	anim_sprite.animation_finished.connect(_on_animacion_terminada)
+	
+	var idx = GameState.selected_weapon_index if GameState else arma_inicial
+	cambiar_arma(idx)
+	
+	# DEBUG
+	equipar_pasiva_por_indice(0)
+	equipar_pasiva_por_indice(1)
 
 func _physics_process(delta: float) -> void:
-	GameState.player_position = global_position
-	debug_label.text = "Player: " + str(global_position)
-	procesar_movimiento()
+	if GameState:
+		GameState.player_position = global_position
+	
+	mover()
 	look_at(get_global_mouse_position())
-	procesar_disparo()
+	disparar()
+	actualizar_debug()
 
-func procesar_movimiento() -> void:
+func mover() -> void:
 	var dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	esta_moviendose = dir.length() > 0
 	velocity = dir.normalized() * velocidad
 	move_and_slide()
+	actualizar_animacion_movimiento()
 
-
-func procesar_disparo() -> void:
-	if Input.is_action_pressed("ui_leftclick") and arma_actual and arma_actual.has_method("disparar"):
-		var mp = get_global_mouse_position()
-		var pos = arma_actual.global_position
-		var dir = (mp - pos).normalized()
-		arma_actual.disparar(pos, dir)
-
-func _on_disparo_realizado() -> void:
-	# Animación del cuerpo
-	anim_sprite.play("disparar")
-	anim_sprite.frame = 0
-
-	# Retroceso visual del arma
-	weapon_holder.position = weapon_holder_pos_original
-	var retroceso_local = Vector2(-4, 0)
-	var tween = create_tween()
-	tween.tween_property(weapon_holder, "position", weapon_holder_pos_original + retroceso_local, 0.05) \
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	tween.tween_property(weapon_holder, "position", weapon_holder_pos_original, 0.1) \
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
-
-	# Retroceso físico del cuerpo
-	var dir_retro = -transform.x * retroceso_fuerza
-	var cuerpo_tween = create_tween()
-	cuerpo_tween.tween_property(self, "position", position + dir_retro, duracion_retroceso / 2)
-	cuerpo_tween.tween_property(self, "position", position, duracion_retroceso / 2)
-
-	# shot_effect.emitting = true
-	# audio_player.play()
-
-func _on_AnimatedSprite2D_animation_finished() -> void:
-	if anim_sprite.animation == "disparar":
-		actualizar_animaciones()
-
-func actualizar_animaciones() -> void:
+func actualizar_animacion_movimiento() -> void:
 	if anim_sprite.animation == "disparar":
 		return
-	if esta_moviendose:
-		if anim_sprite.animation != "caminar":
-			anim_sprite.play("caminar")
-	else:
-		if anim_sprite.animation != "idle":
-			anim_sprite.play("idle")
+	var nueva_anim = "caminar" if esta_moviendose else "idle"
+	if anim_sprite.animation != nueva_anim:
+		anim_sprite.play(nueva_anim)
+
+func disparar() -> void:
+	if not Input.is_action_pressed("ui_leftclick"):
+		return
+	if not arma_actual or not arma_actual.has_method("disparar"):
+		return
+	
+	var mouse_pos = get_global_mouse_position()
+	var arma_pos = arma_actual.global_position
+	var direccion = (mouse_pos - arma_pos).normalized()
+	arma_actual.disparar(arma_pos, direccion)
+
+func _on_disparo_realizado() -> void:
+	anim_sprite.play("disparar")
 	anim_sprite.frame = 0
-	anim_sprite.scale = escala_original
+	animar_retroceso_arma()
+	animar_retroceso_cuerpo()
 
-func _animar_movimiento() -> void:
-	var tiempo = Time.get_ticks_msec() / 200.0
-	var factor = 1.0 + sin(tiempo) * 0.05
-	anim_sprite.scale = escala_original * factor
+func animar_retroceso_arma() -> void:
+	var retroceso_local = Vector2(-4, 0)
+	var tween = create_tween()
+	tween.tween_property(weapon_holder, "position", weapon_holder_pos_original + retroceso_local, 0.05)
+	tween.tween_property(weapon_holder, "position", weapon_holder_pos_original, 0.1)
 
-# ——— Sistema de nivel (comentado) ————————————————————————————
-# func _on_level_up(new_level: int) -> void:
-# 	print("¡Jugador subió al nivel %d!" % new_level)
-# 	var pool: Array = []
-# 	for w in weapon_db.all_weapons:
-# 		if w.unlock_level <= new_level:
-# 			pool.append(w)
-# 	pool.shuffle()
-# 	var choices = pool.slice(0, min(pool.size(), 3))
-# 	var menu = PASSIVE_MENU_SCENE.instantiate() as PassiveSelection
-# 	get_tree().current_scene.add_child(menu)
-# 	menu.setup(choices)
-# 	get_tree().paused = true
-# 	menu.connect("choice_made", Callable(self, "_on_passive_chosen"))
-#
-# func _on_passive_chosen(data: WeaponDB.WeaponData) -> void:
-# 	get_tree().paused = false
-# 	if data.type == "active":
-# 		var idx: int = weapon_db.all_weapons.find(data)
-# 		if idx >= 0 and idx < armas_disponibles.size():
-# 			cambiar_arma(idx)
-# 		else:
-# 			cambiar_arma(arma_inicial)
-# 	else:
-# 		var inst = load(data.scene_path).instantiate()
-# 		passive_holder.add_child(inst)
-# 	game_state.selected_passives.append(data.name)
+func animar_retroceso_cuerpo() -> void:
+	var dir_retro = -transform.x * retroceso_fuerza
+	var pos_inicial = position
+	var tween = create_tween()
+	tween.tween_property(self, "position", pos_inicial + dir_retro, duracion_retroceso / 2)
+	tween.tween_property(self, "position", pos_inicial, duracion_retroceso / 2)
+
+func cambiar_arma(indice: int) -> void:
+	if indice < 0 or indice >= armas_disponibles.size():
+		return
+	
+	if arma_actual:
+		arma_actual.queue_free()
+	
+	arma_actual = armas_disponibles[indice].instantiate()
+	weapon_holder.add_child(arma_actual)
+	arma_actual.position = Vector2.ZERO
+	
+	if arma_actual.has_signal("disparado"):
+		arma_actual.disparado.connect(_on_disparo_realizado)
+
+func equipar_pasiva_por_indice(indice: int) -> void:
+	if indice < 0 or indice >= pasivas_disponibles.size():
+		print("❌ Índice inválido: ", indice)
+		return
+	
+	if pasivas_equipadas.size() >= 3:
+		print("⚠️ Máximo 3 pasivas")
+		return
+	
+	var sistema = pasivas_disponibles[indice].instantiate()
+	passive_holder.add_child(sistema)
+	sistema.position = Vector2.ZERO
+	pasivas_equipadas.append(sistema)
+	
+	print("✅ Sistema equipado: ", sistema.name)
+
+func desequipar_pasiva_por_indice(indice: int) -> void:
+	if indice < 0 or indice >= pasivas_equipadas.size():
+		return
+	
+	var sistema = pasivas_equipadas[indice]
+	pasivas_equipadas.remove_at(indice)
+	sistema.queue_free()
+	print("❌ Sistema desequipado")
+
+func _on_animacion_terminada() -> void:
+	if anim_sprite.animation == "disparar":
+		actualizar_animacion_movimiento()
+
+func actualizar_debug() -> void:
+	if not debug_label:
+		return
+	var texto = "Pos: " + str(global_position.round())
+	texto += "\nVel: " + str(velocity.length()).pad_decimals(0)
+	texto += "\nPasivas: " + str(pasivas_equipadas.size()) + "/3"
+	debug_label.text = texto
+
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_accept"):
+		if pasivas_equipadas.size() > 0:
+			desequipar_pasiva_por_indice(0)
+		else:
+			equipar_pasiva_por_indice(0)
+
+func get_direccion_movimiento() -> Vector2:
+	return velocity.normalized()
+
+func get_velocidad_actual() -> float:
+	return velocity.length()
+
+func is_moving() -> bool:
+	return esta_moviendose
