@@ -6,14 +6,18 @@ class_name Escopeta
 @export var angulo_cono: float = 0.5  # En radianes (0.5 ≈ 28°)
 @export var velocidad_proyectil: float = 800.0
 @export var cadencia_disparo: float = 0.8  # Segundos entre disparos
+@onready var level_up_bd = get_node("/root/LevelUpBD")
 
 # Nodos
 @onready var audio_disparo: AudioStreamPlayer2D = $AudioDisparo
 @onready var efecto_disparo: GPUParticles2D = $EfectoDisparo
 @onready var spawn_node: Marker2D = $BulletSpawn
 
+
 # Variables
 var nivel: int = 0
+var perdigones_adicionales: int = 0
+
 
 func _ready():
 	if not perdigon_scene:
@@ -48,10 +52,24 @@ func calcular_dano_perdigon() -> float:
 	return daño / calcular_numero_perdigones()
 
 func calcular_numero_perdigones() -> int:
-	return 4 + nivel
+	return 4 + perdigones_adicionales
 
 func _on_cadencia_timeout():
 	puede_disparar = true
 
 func esta_disparando() -> bool:
 	return not puede_disparar
+func level_up() -> void:
+	nivel += 1
+	
+	var upgrades = level_up_bd.get_upgrades("escopeta", nivel)
+	aplicar_mejoras(upgrades)
+
+func aplicar_mejoras(upgrades: Dictionary) -> void:
+	if upgrades.has("daño"):
+		daño_adicional += upgrades["daño"]
+		print("✅ Escopeta nivel ", nivel, " | Daño +", upgrades["daño"])
+	
+	if upgrades.has("perdigones"):
+		perdigones_adicionales += upgrades["perdigones"]
+		print("✅ Escopeta nivel ", nivel, " | Perdigones +", upgrades["perdigones"])

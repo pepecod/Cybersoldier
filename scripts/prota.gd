@@ -46,8 +46,8 @@ func _ready() -> void:
 	cambiar_arma(idx)
 	
 	# DEBUG
-	equipar_pasiva_por_indice(0)
-	equipar_pasiva_por_indice(1)
+	#equipar_pasiva_por_indice(0)
+#	equipar_pasiva_por_indice(1)
 
 func _physics_process(delta: float) -> void:
 	if GameState:

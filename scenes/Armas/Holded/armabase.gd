@@ -9,6 +9,8 @@ signal disparado
 @export var cadencia: float = 0.5  # segundos entre disparos
 @export var sonido_disparo: AudioStream
 @export var animacion_disparo: String = "disparo"
+var daño_adicional: int = 0
+
 
 # Variables internas
 var puede_disparar: bool = true
@@ -45,3 +47,6 @@ func esta_disparando() -> bool:
 
 func _on_timer_cadencia_timeout():
 	puede_disparar = true
+
+func get_daño_total() -> int:
+	return daño + daño_adicional

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://cxq6qmiotv84x"]
+
+[ext_resource type="Texture2D" uid="uid://cyg55nv5tjkke" path="res://assets/armas/dron.png" id="1_n6urn"]
+[ext_resource type="Script" uid="uid://bse5feybyhl6m" path="res://scenes/Armas/Throweables/Dron/dron.gd" id="1_pqskh"]
+[ext_resource type="PackedScene" uid="uid://dycs2wrujo2ym" path="res://scenes/Armas/Throweables/Dron/proyectildron.tscn" id="2_u14mu"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pqskh"]
+
+[node name="Dron" type="Node2D"]
+script = ExtResource("1_pqskh")
+proyectil_scene = ExtResource("2_u14mu")
+damage = 5.0
+fire_rate = 0.8
+detection_radius = 50.0
+orbit_radius = 280.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(-0.305, -0.305)
+texture = ExtResource("1_n6urn")
+
+[node name="AreaDetection" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaDetection"]
+scale = Vector2(200, 200)
+shape = SubResource("CircleShape2D_pqskh")

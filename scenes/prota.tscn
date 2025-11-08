@@ -1,9 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://d32n01oactvgx"]
+[gd_scene load_steps=9 format=3 uid="uid://d32n01oactvgx"]
 
 [ext_resource type="Script" uid="uid://d3i0vkk5bhtb3" path="res://scripts/prota.gd" id="1_1qcsf"]
-[ext_resource type="PackedScene" uid="uid://w7ctt4y362r1" path="res://scenes/Armas/Throweables/Minas/lanzaminas.tscn" id="2_4bq7e"]
+[ext_resource type="PackedScene" uid="uid://cajf0k2rro1k0" path="res://scenes/Armas/Throweables/Sierras/sistema_sierras.tscn" id="2_4bq7e"]
 [ext_resource type="Texture2D" uid="uid://dn528f03210ts" path="res://assets/prota/protaanim.png" id="2_gvsfh"]
-[ext_resource type="PackedScene" uid="uid://cajf0k2rro1k0" path="res://scenes/Armas/Throweables/Sierras/sistema_sierras.tscn" id="3_2syi6"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4bq7e"]
 atlas = ExtResource("2_gvsfh")
@@ -64,7 +63,7 @@ func equip_weapon(name: String):
 [node name="ProtaBody" type="CharacterBody2D" parent="." groups=["jugador"]]
 rotation = 2.79253
 script = ExtResource("1_1qcsf")
-pasivas_disponibles = Array[PackedScene]([ExtResource("2_4bq7e"), ExtResource("3_2syi6")])
+pasivas_disponibles = Array[PackedScene]([ExtResource("2_4bq7e")])
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="ProtaBody"]
 rotation = -0.762709

@@ -1,5 +1,5 @@
 extends Area2D
-class_name ProyectilBase
+class_name ProyectilDron
 
 @export var velocidad: float = 500.0
 @export var daño: float = 10.0

@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=4 uid="uid://dara3jjwahjw"]
+[gd_scene load_steps=9 format=4 uid="uid://dara3jjwahjw"]
 
 [ext_resource type="Script" uid="uid://ytlqwfppyttq" path="res://scripts/game.gd" id="1_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://d32n01oactvgx" path="res://scenes/prota.tscn" id="2_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://c53ey3hn044xq" path="res://assets/tiles/level_tileset.png" id="2_yqjtg"]
+[ext_resource type="Script" uid="uid://t71ies1gofy" path="res://scenes/level_up_manager.gd" id="4_lbhrr"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_lnu2h"]
 texture = ExtResource("2_yqjtg")
@@ -168,3 +169,10 @@ position = Vector2(-2144, 560)
 
 [node name="Spawn3" type="Marker2D" parent="TileMap/Spawns"]
 position = Vector2(2584, 856)
+
+[node name="LevelUpManager" type="Node2D" parent="."]
+position = Vector2(24, -16)
+script = ExtResource("4_lbhrr")
+
+[node name="HUD" type="CanvasLayer" parent="."]
+layer = 100

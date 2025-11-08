@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Cybersoldier"
-run/main_scene="uid://dara3jjwahjw"
+run/main_scene="uid://dxpsqn8olhyx0"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameState="*res://scripts/GameState.gd"
 WeaponDb="*res://scripts/WeaponDB.gd"
+LevelUpBD="*res://scripts/LevelUpBD.gd"
 
 [display]
 

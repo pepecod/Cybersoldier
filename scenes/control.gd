@@ -84,12 +84,15 @@ func _on_back_to_main() -> void:
 # ── Handlers de selección ─────────────────────────────
 func _on_sel_escopeta() -> void:
 	GameState.selected_weapon_index = 0
+	GameState.selected_weapon_id = "escopeta" 
 	get_tree().change_scene_to_file(GAME_SCENE_PATH)
 
 func _on_sel_chakram() -> void:
 	GameState.selected_weapon_index = 1
+	GameState.selected_weapon_id = "chakram" 
 	get_tree().change_scene_to_file(GAME_SCENE_PATH)
 
 func _on_sel_sniper() -> void:
 	GameState.selected_weapon_index = 2
+	GameState.selected_weapon_id = "sniper"
 	get_tree().change_scene_to_file(GAME_SCENE_PATH)

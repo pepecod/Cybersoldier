@@ -3,41 +3,45 @@ extends Node2D
 @export var sierra_scene: PackedScene
 @export var nivel_inicial: int = 1
 
+@onready var level_up_bd = get_node("/root/LevelUpBD")
+
 var nivel_actual: int = 1
 var sierras: Array = []
 
+# Variables de mejora
+var cantidad_adicional: int = 0
+var daño_adicional: float = 0.0
+var radio_adicional: float = 0.0
+var velocidad_giro_adicional: float = 0.0
+
 func _ready() -> void:
-	print("🔧 SistemaSierras _ready() iniciado")
-	
 	if not sierra_scene:
-		print("❌ ERROR: sierra_scene no está asignada!")
+		push_error("sierra_scene no está asignada")
 		return
 	
-	print("✅ Sierra scene asignada: ", sierra_scene.resource_path)
-	
 	nivel_actual = nivel_inicial
-	crear_sierras(nivel_actual)
-	
-	print("🎯 Sistema de sierras activo")
+	crear_sierras()
 
-func crear_sierras(nivel: int) -> void:
+func crear_sierras() -> void:
 	destruir_sierras()
 	
-	var cantidad = nivel * 2
-	print("🔄 Creando ", cantidad, " sierras...")
+	var cantidad_base = 2
+	var cantidad_total = cantidad_base + cantidad_adicional
 	
-	for i in cantidad:
+	for i in cantidad_total:
 		var sierra = sierra_scene.instantiate()
-		
-		# Añadir como hijo de ESTE nodo (que es hijo del PassiveHolder)
 		add_child(sierra)
 		
-		# Asignar ángulo inicial para distribuirlas uniformemente
-		var angulo_inicial = (TAU / cantidad) * i
+		# Ángulo inicial distribuido uniformemente
+		var angulo_inicial = (TAU / cantidad_total) * i
 		sierra.angulo = angulo_inicial
 		
+		# Aplicar mejoras
+		sierra.damage = 20.0 + daño_adicional
+		sierra.radio_orbita = 100.0 + radio_adicional
+		sierra.velocidad_giro = 2.0 + velocidad_giro_adicional
+		
 		sierras.append(sierra)
-		print("🪚 Sierra ", i + 1, " creada con ángulo: ", angulo_inicial)
 
 func destruir_sierras() -> void:
 	for sierra in sierras:
@@ -45,9 +49,28 @@ func destruir_sierras() -> void:
 			sierra.queue_free()
 	sierras.clear()
 
-func subir_nivel() -> void:
+func level_up() -> void:
 	nivel_actual += 1
-	crear_sierras(nivel_actual)
+	
+	var upgrades = level_up_bd.get_upgrades("sierras", nivel_actual)
+	aplicar_mejoras(upgrades)
+
+func aplicar_mejoras(upgrades: Dictionary) -> void:
+	if upgrades.has("cantidad"):
+		cantidad_adicional += upgrades["cantidad"]
+		
+	
+	if upgrades.has("daño"):
+		daño_adicional += upgrades["daño"]
+	
+	if upgrades.has("radio"):
+		radio_adicional += upgrades["radio"]
+	
+	if upgrades.has("velocidad_giro"):
+		velocidad_giro_adicional += upgrades["velocidad_giro"]
+	
+	# Recrear sierras con las mejoras aplicadas
+	crear_sierras()
 
 func _exit_tree() -> void:
 	destruir_sierras()
