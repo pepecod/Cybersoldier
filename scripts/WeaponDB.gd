@@ -36,7 +36,7 @@ var all_weapons: Array[WeaponData] = [
 		"active",
 		1,
 		"Rebota entre varios enemigos antes de desaparecer.",
-		"res://assets/armas/chakram.png"
+		"res://assets/armas/iconos/chakram_icon.png"
 	),
 	WeaponData.new(
 		"sniper",
@@ -45,7 +45,7 @@ var all_weapons: Array[WeaponData] = [
 		"active",
 		1,
 		"Bala lenta y penetrante que atraviesa múltiples blancos.",
-		"res://assets/armas/sniper.png"
+		"res://assets/armas/iconos/sniper_icon.png"
 	),
 	WeaponData.new(
 		"escopeta",
@@ -54,7 +54,7 @@ var all_weapons: Array[WeaponData] = [
 		"active",
 		1,
 		"Dispara una nube de proyectiles cortos con gran dispersión.",
-		"res://assets/armas/escopeta.png"
+		"res://assets/armas/iconos/escopeta_icon.png"
 	),
 	WeaponData.new(
 		"aura",
@@ -63,7 +63,7 @@ var all_weapons: Array[WeaponData] = [
 		"passive",
 		1,
 		"Genera un campo que daña a los enemigos cercanos.",
-		"res://assets/armas/aura.png"
+		"res://assets/armas/iconos/aura_icon.png"
 	),
 	WeaponData.new(
 		"dron",
@@ -72,7 +72,7 @@ var all_weapons: Array[WeaponData] = [
 		"passive",
 		1,
 		"Un dron que dispara automáticamente a los enemigos.",
-		"res://assets/armas/dron.png"
+		"res://assets/armas/iconos/dron_icon.png"
 	),
 	WeaponData.new(
 		"minas",
@@ -81,7 +81,7 @@ var all_weapons: Array[WeaponData] = [
 		"passive",
 		1,
 		"Coloca minas que explotan al paso de un enemigo.",
-		"res://assets/armas/minas.png"
+		"res://assets/armas/iconos/minas_icon.png"
 	),
 	WeaponData.new(
 		"sierras",
@@ -90,7 +90,7 @@ var all_weapons: Array[WeaponData] = [
 		"passive",
 		1,
 		"Sierras giratorias que cortan todo a su paso.",
-		"res://assets/armas/sierras.png"
+		"res://assets/armas/iconos/sierra_icon.png"
 	),
 	WeaponData.new(
 		"lanzacohetes",
