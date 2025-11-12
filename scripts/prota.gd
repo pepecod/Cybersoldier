@@ -3,6 +3,12 @@ extends CharacterBody2D
 # ——— Señales ————————————————————————————————————————
 signal pasiva_equipada(pasiva_name: String)
 signal pasiva_desequipada(pasiva_name: String)
+signal vida_cambiada(vida_actual: float, vida_maxima: float)
+signal muerto()
+
+# ——— Vida ————————————————————————————————————————
+@export var vida_maxima: float = 100.0
+var vida_actual: float = 100.0
 
 # ——— Configuración ————————————————————————————————————————
 @export var velocidad: float = 2000.0
@@ -45,9 +51,8 @@ func _ready() -> void:
 	var idx = GameState.selected_weapon_index if GameState else arma_inicial
 	cambiar_arma(idx)
 	
-	# DEBUG
-	#equipar_pasiva_por_indice(0)
-#	equipar_pasiva_por_indice(1)
+	# Inicializar vida
+	vida_actual = vida_maxima
 
 func _physics_process(delta: float) -> void:
 	if GameState:
@@ -118,19 +123,15 @@ func cambiar_arma(indice: int) -> void:
 
 func equipar_pasiva_por_indice(indice: int) -> void:
 	if indice < 0 or indice >= pasivas_disponibles.size():
-		print("❌ Índice inválido: ", indice)
 		return
 	
 	if pasivas_equipadas.size() >= 3:
-		print("⚠️ Máximo 3 pasivas")
 		return
 	
 	var sistema = pasivas_disponibles[indice].instantiate()
 	passive_holder.add_child(sistema)
 	sistema.position = Vector2.ZERO
 	pasivas_equipadas.append(sistema)
-	
-	print("✅ Sistema equipado: ", sistema.name)
 
 func desequipar_pasiva_por_indice(indice: int) -> void:
 	if indice < 0 or indice >= pasivas_equipadas.size():
@@ -139,7 +140,13 @@ func desequipar_pasiva_por_indice(indice: int) -> void:
 	var sistema = pasivas_equipadas[indice]
 	pasivas_equipadas.remove_at(indice)
 	sistema.queue_free()
-	print("❌ Sistema desequipado")
+
+func take_damage(cantidad: float) -> void:
+	vida_actual = max(0, vida_actual - cantidad)
+	vida_cambiada.emit(vida_actual, vida_maxima)
+	
+	if vida_actual <= 0:
+		muerto.emit()
 
 func _on_animacion_terminada() -> void:
 	if anim_sprite.animation == "disparar":
@@ -150,6 +157,7 @@ func actualizar_debug() -> void:
 		return
 	var texto = "Pos: " + str(global_position.round())
 	texto += "\nVel: " + str(velocity.length()).pad_decimals(0)
+	texto += "\nVida: " + str(int(vida_actual)) + "/" + str(int(vida_maxima))
 	texto += "\nPasivas: " + str(pasivas_equipadas.size()) + "/3"
 	debug_label.text = texto
 
@@ -159,6 +167,10 @@ func _input(event: InputEvent) -> void:
 			desequipar_pasiva_por_indice(0)
 		else:
 			equipar_pasiva_por_indice(0)
+	
+	# DEBUG: Tecla para probar daño
+	if event.is_action_pressed("ui_text_backspace"):
+		take_damage(10)
 
 func get_direccion_movimiento() -> Vector2:
 	return velocity.normalized()

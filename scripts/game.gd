@@ -13,6 +13,7 @@ extends Node2D
 func _ready():
 	spawn_timer.timeout.connect(_on_spawn_timer_timeout)
 	spawn_timer.start()
+	MusicPlayer.iniciar_musica()
 
 func _on_spawn_timer_timeout():
 	if enemigos_node.get_child_count() >= max_enemigos:

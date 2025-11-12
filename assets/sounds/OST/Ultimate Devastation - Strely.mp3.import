@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://sawo8drg0u6x"
+path="res://.godot/imported/Ultimate Devastation - Strely.mp3-40a2b38f6488fb3c6c2b0f5d6b952d70.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/OST/Ultimate Devastation - Strely.mp3"
+dest_files=["res://.godot/imported/Ultimate Devastation - Strely.mp3-40a2b38f6488fb3c6c2b0f5d6b952d70.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

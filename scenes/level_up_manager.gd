@@ -27,14 +27,31 @@ func _ready() -> void:
 	player = get_tree().get_first_node_in_group("player")
 
 func _on_level_up(new_level: int) -> void:
-	get_tree().paused = true
-	
+	# Generar opciones PRIMERO
 	var opciones = generar_opciones(new_level)
 	
 	if opciones.is_empty():
-		get_tree().paused = false
 		return
 	
+	# Pausar el juego INMEDIATAMENTE (antes del shake)
+	get_tree().paused = true
+	
+	# Obtener referencia al HUD
+	var hud = get_tree().get_first_node_in_group("hud")
+	if hud and hud.has_method("shake_xp"):
+		# Despausar temporalmente para que se vea el shake
+		get_tree().paused = false
+		hud.shake_xp()
+		
+		# Esperar a que termine el shake (aprox 0.3-0.4s)
+		await get_tree().create_timer(0.5).timeout
+		
+		# Volver a pausar
+		get_tree().paused = true
+	
+	MusicPlayer.aplicar_efecto_level_up()
+	
+	# Mostrar menu de seleccion
 	mostrar_menu_seleccion(opciones)
 
 func generar_opciones(nivel: int) -> Array:
@@ -128,7 +145,7 @@ func _on_choice_made(weapon_data) -> void:
 			mejorar_pasiva(weapon_data)
 		else:
 			equipar_nueva_pasiva(weapon_data)
-	
+	MusicPlayer.quitar_efecto_level_up()
 	get_tree().paused = false
 
 func mejorar_arma_activa(weapon_data) -> void:

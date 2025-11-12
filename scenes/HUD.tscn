@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://c4oq0iu814gfs"]
+
+[ext_resource type="Script" uid="uid://bidpxt6f30iyt" path="res://scenes/hud.gd" id="1_f6qnu"]
+[ext_resource type="Texture2D" uid="uid://cjwajsow853m2" path="res://assets/hud/HudProta.png" id="1_qpvh6"]
+[ext_resource type="Texture2D" uid="uid://drhubclwnscn4" path="res://assets/hud/HudXP.png" id="3_1etfg"]
+[ext_resource type="Texture2D" uid="uid://depsk01nceix4" path="res://assets/hud/HudBarraVida2.png" id="4_f6qnu"]
+[ext_resource type="Texture2D" uid="uid://kdmlprgoqg5s" path="res://assets/hud/HudBarraVida2Under.png" id="4_k4w17"]
+[ext_resource type="Texture2D" uid="uid://bdbru3a33gft" path="res://assets/hud/HudBarraVida2HPprogress.png" id="6_k4w17"]
+[ext_resource type="Texture2D" uid="uid://d0aw8r71ix31e" path="res://assets/hud/HudBarraVida2XPprogress.png" id="7_k4w17"]
+
+[node name="Hud" type="CanvasLayer"]
+layer = 100
+script = ExtResource("1_f6qnu")
+
+[node name="HudProta" type="TextureRect" parent="."]
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 120.0
+offset_bottom = 120.0
+texture = ExtResource("1_qpvh6")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="HudXP" type="TextureRect" parent="."]
+offset_left = 1800.0
+offset_top = 20.0
+offset_right = 1900.0
+offset_bottom = 120.0
+texture = ExtResource("3_1etfg")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="BarraVida" type="TextureProgressBar" parent="."]
+offset_left = 80.0
+offset_top = 56.0
+offset_right = 280.0
+offset_bottom = 86.0
+nine_patch_stretch = true
+stretch_margin_left = 15
+stretch_margin_top = 10
+stretch_margin_right = 15
+stretch_margin_bottom = 10
+texture_under = ExtResource("4_k4w17")
+texture_over = ExtResource("4_f6qnu")
+texture_progress = ExtResource("6_k4w17")
+
+[node name="BarraXP" type="TextureProgressBar" parent="."]
+offset_left = 1640.0
+offset_top = 50.0
+offset_right = 1840.0
+offset_bottom = 80.0
+nine_patch_stretch = true
+stretch_margin_left = 15
+stretch_margin_top = 10
+stretch_margin_right = 15
+stretch_margin_bottom = 10
+texture_under = ExtResource("4_k4w17")
+texture_over = ExtResource("4_f6qnu")
+texture_progress = ExtResource("7_k4w17")

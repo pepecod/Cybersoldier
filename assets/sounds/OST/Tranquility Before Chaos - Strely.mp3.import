@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cllqifhtoqba6"
+path="res://.godot/imported/Tranquility Before Chaos - Strely.mp3-cd3162ff6c47433e386691b22230cd78.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/OST/Tranquility Before Chaos - Strely.mp3"
+dest_files=["res://.godot/imported/Tranquility Before Chaos - Strely.mp3-cd3162ff6c47433e386691b22230cd78.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
