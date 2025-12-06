@@ -11,9 +11,16 @@ signal muerto()
 var vida_actual: float = 100.0
 
 # ——— Configuración ————————————————————————————————————————
-@export var velocidad: float = 2000.0
+@export var velocidad: float = 700.0
 @export var retroceso_fuerza: float = 10.0
 @export var duracion_retroceso: float = 0.15
+@export var aceleracion: float = 1000.5
+@export var friccion: float = 100.8 
+
+# DASH
+@export var dash_velocidad: float = 2000.0
+@export var dash_duracion: float = 0.2
+@export var dash_cooldown: float = 2.0
 
 @export_group("Armas")
 @export var armas_disponibles: Array[PackedScene] = [
@@ -39,6 +46,13 @@ var pasivas_equipadas: Array = []
 var weapon_holder_pos_original: Vector2
 var escala_original: Vector2
 
+# Dash
+var esta_dasheando: bool = false
+var dash_direccion: Vector2 = Vector2.ZERO
+var puede_dashear: bool = true
+var dash_timer: Timer
+var cooldown_timer: Timer
+
 func _ready() -> void:
 	add_to_group("player")
 	
@@ -51,22 +65,77 @@ func _ready() -> void:
 	var idx = GameState.selected_weapon_index if GameState else arma_inicial
 	cambiar_arma(idx)
 	
-	# Inicializar vida
 	vida_actual = vida_maxima
+	
+	_crear_timers_dash()
+
+func _crear_timers_dash() -> void:
+	# Timer de duración del dash
+	dash_timer = Timer.new()
+	dash_timer.one_shot = true
+	dash_timer.timeout.connect(_on_dash_terminado)
+	add_child(dash_timer)
+	
+	# Timer de cooldown
+	cooldown_timer = Timer.new()
+	cooldown_timer.one_shot = true
+	cooldown_timer.timeout.connect(_on_dash_cooldown_terminado)
+	add_child(cooldown_timer)
 
 func _physics_process(delta: float) -> void:
 	if GameState:
 		GameState.player_position = global_position
 	
+	manejar_dash()
 	mover()
 	look_at(get_global_mouse_position())
 	disparar()
 	actualizar_debug()
 
+func manejar_dash() -> void:
+	if Input.is_action_just_pressed("ui_accept") and puede_dashear and not esta_dasheando:
+		iniciar_dash()
+
+func iniciar_dash() -> void:
+	var dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
+	
+	# Si no hay input de movimiento, dashear hacia donde mira el mouse
+	if dir.length() == 0:
+		dir = (get_global_mouse_position() - global_position).normalized()
+	
+	dash_direccion = dir.normalized()
+	esta_dasheando = true
+	puede_dashear = false
+	
+	dash_timer.start(dash_duracion)
+	cooldown_timer.start(dash_cooldown)
+	
+	_efecto_visual_dash()
+
+func _on_dash_terminado() -> void:
+	esta_dasheando = false
+	dash_direccion = Vector2.ZERO
+
+func _on_dash_cooldown_terminado() -> void:
+	puede_dashear = true
+
+func _efecto_visual_dash() -> void:
+	var tween = create_tween()
+	tween.tween_property(anim_sprite, "modulate", Color(0.5, 0.5, 1.0, 0.7), 0.05)
+	tween.tween_property(anim_sprite, "modulate", Color.WHITE, dash_duracion - 0.05)
+
 func mover() -> void:
 	var dir = Input.get_vector("ui_left", "ui_right", "ui_up", "ui_down")
 	esta_moviendose = dir.length() > 0
-	velocity = dir.normalized() * velocidad
+	
+	if esta_dasheando:
+		velocity = dash_direccion * dash_velocidad
+	else:
+		if dir.length() > 0:
+			velocity = velocity.move_toward(dir.normalized() * velocidad, aceleracion)
+		else:
+			velocity = velocity.move_toward(Vector2.ZERO, friccion)
+	
 	move_and_slide()
 	actualizar_animacion_movimiento()
 
@@ -159,16 +228,11 @@ func actualizar_debug() -> void:
 	texto += "\nVel: " + str(velocity.length()).pad_decimals(0)
 	texto += "\nVida: " + str(int(vida_actual)) + "/" + str(int(vida_maxima))
 	texto += "\nPasivas: " + str(pasivas_equipadas.size()) + "/3"
+	if not puede_dashear:
+		texto += "\nDash: Cooldown"
 	debug_label.text = texto
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept"):
-		if pasivas_equipadas.size() > 0:
-			desequipar_pasiva_por_indice(0)
-		else:
-			equipar_pasiva_por_indice(0)
-	
-	# DEBUG: Tecla para probar daño
 	if event.is_action_pressed("ui_text_backspace"):
 		take_damage(10)
 

@@ -14,6 +14,8 @@ var objetivo_actual: Node2D = null
 
 @onready var nav_agent: NavigationAgent2D = $NavAgent
 
+signal destruido()
+
 func _ready() -> void:
 	$CollisionShape2D.disabled = false
 	$AnimatedSprite2D.play("vuelo")
@@ -43,18 +45,18 @@ func _on_body_entered(body: Node) -> void:
 	enemigos_golpeados.append(body)
 	rebotes_realizados += 1
 	
+	# CORREGIDO: Emitir destruido antes de return
 	if rebotes_realizados >= max_rebotes:
-		queue_free()
+		destruido.emit()  # ← ✅ AÑADIDO
 		return
 	
 	objetivo_actual = get_siguiente_enemigo()
 	if objetivo_actual:
-		print("🎯 Perseguir a ", objetivo_actual.name)
 		$CollisionShape2D.disabled = true
 		await get_tree().create_timer(tiempo_rebote).timeout
 		$CollisionShape2D.disabled = false
 	else:
-		queue_free()
+		destruido.emit()
 
 func get_siguiente_enemigo() -> Node2D:
 	var mejor: Node2D = null

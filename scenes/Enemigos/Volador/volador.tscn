@@ -200,12 +200,18 @@ animations = [{
 
 [node name="Enemigobase" instance=ExtResource("1_y67fm")]
 script = ExtResource("2_ycxwi")
-"daño_ataque" = 10.0
 xp = 10.0
-tiempo_entre_ataques = 1.0
-velocidad = 100.0
-vida_max = 30
+velocidad_base = 100.0
+vida_base = 30
+"daño_base" = 10.0
+cooldown_ataque = 1.0
 
 [node name="AnimatedSprite2D" parent="." index="0"]
 sprite_frames = SubResource("SpriteFrames_lnsn2")
 animation = &"atacar"
+
+[node name="Detector" parent="." index="4"]
+collision_layer = 0
+
+[node name="Colision" parent="Detector" index="0"]
+scale = Vector2(3.5, 3.5)

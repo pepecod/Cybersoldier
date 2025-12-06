@@ -6,9 +6,9 @@ extends Node
 
 var playlist: Array[AudioStream] = []
 var current_track_index: int = 0
-var shuffle: bool = false
-var volumen_normal: float = 0.0  # dB
-var volumen_level_up: float = -15.0  # dB (más bajo)
+var shuffle: bool = true # Aquí si lo pones en false reproduce en orden
+var volumen_normal: float = -18.0  # dB
+var volumen_level_up: float = -35.0  # dB (más bajo)
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -18,6 +18,8 @@ func _ready() -> void:
 	
 	# Cargar todas las canciones de la carpeta OST
 	cargar_playlist("res://assets/sounds/OST/")
+	volumen_normal = -24.0  # dB
+	music_player.volume_db = volumen_normal
 	
 	# Configurar audio bus con filtro
 	_configurar_audio_bus()

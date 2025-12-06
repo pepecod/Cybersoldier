@@ -21,6 +21,7 @@ GameState="*res://scripts/GameState.gd"
 WeaponDb="*res://scripts/WeaponDB.gd"
 LevelUpBD="*res://scripts/LevelUpBD.gd"
 MusicPlayer="*res://scripts/music_player.gd"
+ProjectileFactory="*res://scripts/ProjectileFactory.gd"
 
 [display]
 

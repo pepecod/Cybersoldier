@@ -1,50 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://cclgld4jg07lk"]
 
 [ext_resource type="Texture2D" uid="uid://chaosmbi5utdv" path="res://assets/bullets/All_Fire_Bullet_Pixel_16x16_00.png" id="1_d4hn6"]
-
-[sub_resource type="GDScript" id="GDScript_d4hn6"]
-script/source = "extends Area2D
-class_name ProyectilBase
-
-@export var velocidad: float = 500.0
-@export var daño: float = 10.0
-@export var tiempo_vida: float = 2.0
-
-var direccion: Vector2 = Vector2.RIGHT
-var creador: Node = null
-
-func _ready():
-	$TiempoVida.start(tiempo_vida)
-	set_physics_process(true)
-
-func setup(config: Dictionary):
-	if \"posicion\" in config:
-		global_position = config[\"posicion\"]
-	if \"direccion\" in config:
-		direccion = config[\"direccion\"].normalized()
-	if \"velocidad\" in config:
-		velocidad = config[\"velocidad\"]
-	if \"daño\" in config:
-		daño = config[\"daño\"]
-	if \"creador\" in config:
-		creador = config[\"creador\"]
-
-	rotation = direccion.angle()
-
-func _physics_process(delta):
-	position += direccion * velocidad * delta
-
-func _on_Timer_timeout():
-	queue_free()
-
-func get_daño() -> float:
-	return daño
-	
-func destruir():
-	print(\"destruyendo\")
-	# Efectos opcionales antes de eliminar (partículas, sonido, etc)
-	queue_free()
-"
+[ext_resource type="Script" uid="uid://cwk86p7gdrv78" path="res://scripts/proyectilbase.gd" id="1_kwb13"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y25gk"]
 atlas = ExtResource("1_d4hn6")
@@ -86,7 +43,7 @@ animations = [{
 radius = 8.0
 
 [node name="Area2D" type="Area2D"]
-script = SubResource("GDScript_d4hn6")
+script = ExtResource("1_kwb13")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_tamys")

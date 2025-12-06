@@ -10,7 +10,7 @@ var player_position: Vector2 = Vector2.ZERO
 
 var xp: int         = 0
 var level: int      = 1
-var xp_to_next: int = 10
+var xp_to_next: int = 150
 
 signal level_up(new_level: int)
 
@@ -23,9 +23,3 @@ func add_xp(amount: int) -> void:
 		xp_to_next = int(xp_to_next * 1.2)
 		print("🎉 ¡Subiste al nivel %d! Próximo nivel a %d XP" % [level, xp_to_next])
 		emit_signal("level_up", level)
-
-#----------Opciones del menu------------
-# También podrías añadir:
-# var music_volume: float = 1.0
-# var sfx_volume:   float = 1.0
-# var screen_resolution: Vector2 = Vector2(1024, 768)

@@ -42,6 +42,10 @@ animations = [{
 
 [node name="Area2D" instance=ExtResource("1_yji2f")]
 script = ExtResource("2_74pap")
+speed = 600.0
+"daño" = 10
+max_rebotes = 3
+tiempo_rebote = 0.1
 
 [node name="NavAgent" type="NavigationAgent2D" parent="." index="0"]
 

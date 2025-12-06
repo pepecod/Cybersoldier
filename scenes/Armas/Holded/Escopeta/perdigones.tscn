@@ -5,3 +5,4 @@
 
 [node name="Area2D" instance=ExtResource("1_n8reg")]
 script = ExtResource("2_uos7i")
+dispersion_aleatoria = 0.15

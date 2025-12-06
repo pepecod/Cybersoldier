@@ -1,41 +1,40 @@
 extends Area2D
-class_name ProyectilDron
+class_name ProyectilBase
 
-@export var velocidad: float = 500.0
+signal destruido()
+
+@export var speed: float = 600.0
 @export var daño: float = 10.0
-@export var tiempo_vida: float = 2.0
+@export var lifetime: float = 5.0
 
-var direccion: Vector2 = Vector2.RIGHT
+var direccion: Vector2 = Vector2.ZERO
 var creador: Node = null
 
-func _ready():
-	$TiempoVida.start(tiempo_vida)
-	set_physics_process(true)
+func _ready() -> void:
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
+	
+	if has_node("TiempoVida"):
+		var timer = get_node("TiempoVida")
+		if not timer.timeout.is_connected(_on_timeout):
+			timer.timeout.connect(_on_timeout)
 
-func setup(config: Dictionary):
-	if "posicion" in config:
-		global_position = config["posicion"]
-	if "direccion" in config:
-		direccion = config["direccion"].normalized()
-	if "velocidad" in config:
-		velocidad = config["velocidad"]
-	if "daño" in config:
-		daño = config["daño"]
-	if "creador" in config:
-		creador = config["creador"]
+func _physics_process(delta: float) -> void:
+	position += direccion.normalized() * speed * delta
 
-	rotation = direccion.angle()
+func _on_body_entered(body: Node) -> void:
+	if body == creador:
+		return
+	
+	if body.is_in_group("enemigo") and body.has_method("take_damage"):
+		body.take_damage(get_daño())
+		_destruir()
 
-func _physics_process(delta):
-	position += direccion * velocidad * delta
+func _on_timeout() -> void:
+	_destruir()
 
-func _on_Timer_timeout():
-	queue_free()
+func _destruir() -> void:
+	destruido.emit()
 
 func get_daño() -> float:
 	return daño
-	
-func destruir():
-	print("destruyendo")
-	# Efectos opcionales antes de eliminar (partículas, sonido, etc)
-	queue_free()

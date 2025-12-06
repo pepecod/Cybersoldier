@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://dycs2wrujo2ym"]
 
 [ext_resource type="Texture2D" uid="uid://chaosmbi5utdv" path="res://assets/bullets/All_Fire_Bullet_Pixel_16x16_00.png" id="1_tiaq5"]
-[ext_resource type="Script" uid="uid://cwk86p7gdrv78" path="res://scripts/proyectilbase.gd" id="1_trjpt"]
+[ext_resource type="Script" uid="uid://ccttbut5bly66" path="res://scenes/Armas/Throweables/Dron/proyectildron.gd" id="1_trjpt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y25gk"]
 atlas = ExtResource("1_tiaq5")
